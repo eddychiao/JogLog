@@ -47,7 +47,17 @@ create table if not exists race_records (
 
 create index race_records_type_time_idx on race_records (race_type, time_seconds asc);
 
--- ── Row Level Security (optional — enable if you add auth) ────────────────
+-- ── Permissions ───────────────────────────────────────────────────────────
+-- Supabase grants SELECT to anon by default but not write operations.
+-- For a personal app without auth, grant full access to the anon role.
+-- When you add Supabase Auth later, replace these with RLS policies instead.
+
+grant select, insert, update, delete on runs           to anon;
+grant select, insert, update, delete on goals          to anon;
+grant select, insert, update, delete on race_records   to anon;
+
+-- ── Row Level Security (add when you introduce auth) ──────────────────────
 -- alter table runs enable row level security;
--- alter table goals enable row level security;
--- alter table race_records enable row level security;
+-- create policy "Users own their runs" on runs
+--   using (auth.uid() = user_id) with check (auth.uid() = user_id);
+-- (repeat for goals and race_records)

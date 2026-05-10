@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback } from 'react';
+import { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import type { Run, Goal, RaceRecord } from '../types';
 import * as storage from '../lib/storage';
@@ -7,73 +7,102 @@ interface AppState {
   runs: Run[];
   goals: Goal[];
   raceRecords: RaceRecord[];
-  addRun: (run: Run) => void;
-  updateRun: (run: Run) => void;
-  deleteRun: (id: string) => void;
-  addGoal: (goal: Goal) => void;
-  updateGoal: (goal: Goal) => void;
-  deleteGoal: (id: string) => void;
-  addRaceRecord: (record: RaceRecord) => void;
-  updateRaceRecord: (record: RaceRecord) => void;
-  deleteRaceRecord: (id: string) => void;
+  loading: boolean;
+  addRun: (run: Run) => Promise<void>;
+  updateRun: (run: Run) => Promise<void>;
+  deleteRun: (id: string) => Promise<void>;
+  addGoal: (goal: Goal) => Promise<void>;
+  updateGoal: (goal: Goal) => Promise<void>;
+  deleteGoal: (id: string) => Promise<void>;
+  addRaceRecord: (record: RaceRecord) => Promise<void>;
+  updateRaceRecord: (record: RaceRecord) => Promise<void>;
+  deleteRaceRecord: (id: string) => Promise<void>;
 }
 
 const AppContext = createContext<AppState | null>(null);
 
 export function AppProvider({ children }: { children: ReactNode }) {
-  const [runs, setRuns] = useState<Run[]>(() => storage.getRuns());
-  const [goals, setGoals] = useState<Goal[]>(() => storage.getGoals());
-  const [raceRecords, setRaceRecords] = useState<RaceRecord[]>(() => storage.getRaceRecords());
+  const [runs, setRuns] = useState<Run[]>([]);
+  const [goals, setGoals] = useState<Goal[]>([]);
+  const [raceRecords, setRaceRecords] = useState<RaceRecord[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const addRun = useCallback((run: Run) => {
-    storage.addRun(run);
-    setRuns(storage.getRuns());
+  useEffect(() => {
+    Promise.all([
+      storage.getRuns(),
+      storage.getGoals(),
+      storage.getRaceRecords(),
+    ])
+      .then(([r, g, rr]) => {
+        setRuns(r);
+        setGoals(g);
+        setRaceRecords(rr);
+      })
+      .catch(console.error)
+      .finally(() => setLoading(false));
   }, []);
 
-  const updateRun = useCallback((run: Run) => {
-    storage.updateRun(run);
-    setRuns(storage.getRuns());
+  // Mutations use optimistic local updates so the UI responds instantly,
+  // then the Supabase call persists in the background.
+
+  const addRun = useCallback(async (run: Run) => {
+    setRuns(prev => [run, ...prev].sort((a, b) => b.date.localeCompare(a.date)));
+    await storage.addRun(run);
   }, []);
 
-  const deleteRun = useCallback((id: string) => {
-    storage.deleteRun(id);
-    setRuns(storage.getRuns());
+  const updateRun = useCallback(async (run: Run) => {
+    setRuns(prev => prev.map(r => (r.id === run.id ? run : r)));
+    await storage.updateRun(run);
   }, []);
 
-  const addGoal = useCallback((goal: Goal) => {
-    storage.addGoal(goal);
-    setGoals(storage.getGoals());
+  const deleteRun = useCallback(async (id: string) => {
+    setRuns(prev => prev.filter(r => r.id !== id));
+    await storage.deleteRun(id);
   }, []);
 
-  const updateGoal = useCallback((goal: Goal) => {
-    storage.updateGoal(goal);
-    setGoals(storage.getGoals());
+  const addGoal = useCallback(async (goal: Goal) => {
+    setGoals(prev => [goal, ...prev]);
+    await storage.addGoal(goal);
   }, []);
 
-  const deleteGoal = useCallback((id: string) => {
-    storage.deleteGoal(id);
-    setGoals(storage.getGoals());
+  const updateGoal = useCallback(async (goal: Goal) => {
+    setGoals(prev => prev.map(g => (g.id === goal.id ? goal : g)));
+    await storage.updateGoal(goal);
   }, []);
 
-  const addRaceRecord = useCallback((record: RaceRecord) => {
-    storage.addRaceRecord(record);
-    setRaceRecords(storage.getRaceRecords());
+  const deleteGoal = useCallback(async (id: string) => {
+    setGoals(prev => prev.filter(g => g.id !== id));
+    await storage.deleteGoal(id);
   }, []);
 
-  const updateRaceRecord = useCallback((record: RaceRecord) => {
-    storage.updateRaceRecord(record);
-    setRaceRecords(storage.getRaceRecords());
+  const addRaceRecord = useCallback(async (record: RaceRecord) => {
+    setRaceRecords(prev => [record, ...prev]);
+    await storage.addRaceRecord(record);
   }, []);
 
-  const deleteRaceRecord = useCallback((id: string) => {
-    storage.deleteRaceRecord(id);
-    setRaceRecords(storage.getRaceRecords());
+  const updateRaceRecord = useCallback(async (record: RaceRecord) => {
+    setRaceRecords(prev => prev.map(r => (r.id === record.id ? record : r)));
+    await storage.updateRaceRecord(record);
   }, []);
+
+  const deleteRaceRecord = useCallback(async (id: string) => {
+    setRaceRecords(prev => prev.filter(r => r.id !== id));
+    await storage.deleteRaceRecord(id);
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="app-loading">
+        <div className="app-loading-spinner" />
+        <p>Loading…</p>
+      </div>
+    );
+  }
 
   return (
     <AppContext.Provider
       value={{
-        runs, goals, raceRecords,
+        runs, goals, raceRecords, loading,
         addRun, updateRun, deleteRun,
         addGoal, updateGoal, deleteGoal,
         addRaceRecord, updateRaceRecord, deleteRaceRecord,

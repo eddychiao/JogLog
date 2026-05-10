@@ -1,84 +1,91 @@
-// Storage layer — currently backed by localStorage.
-// To migrate to Supabase, replace each function body with the corresponding
-// supabase.from('table').select/insert/update/delete call from src/lib/supabase.ts.
-
 import type { Run, Goal, RaceRecord } from '../types';
+import { supabase } from './supabase';
 
-const KEYS = {
-  RUNS: 'runlog_runs',
-  GOALS: 'runlog_goals',
-  RECORDS: 'runlog_records',
-};
-
-function load<T>(key: string): T[] {
-  try {
-    const raw = localStorage.getItem(key);
-    return raw ? JSON.parse(raw) : [];
-  } catch {
-    return [];
-  }
+// Supabase returns numeric(10,2) columns as strings — cast them back.
+function parseRun(r: Record<string, unknown>): Run {
+  return { ...r, distance: Number(r.distance) } as Run;
+}
+function parseGoal(g: Record<string, unknown>): Goal {
+  return { ...g, target_distance: Number(g.target_distance) } as Goal;
+}
+function parseRecord(r: Record<string, unknown>): RaceRecord {
+  return { ...r, distance: r.distance != null ? Number(r.distance) : undefined } as RaceRecord;
 }
 
-function persist<T>(key: string, items: T[]): void {
-  localStorage.setItem(key, JSON.stringify(items));
+// ── Runs ─────────────────────────────────────────────────────────────────
+
+export async function getRuns(): Promise<Run[]> {
+  const { data, error } = await supabase
+    .from('runs')
+    .select('*')
+    .order('date', { ascending: false });
+  if (error) throw error;
+  return (data ?? []).map(parseRun);
 }
 
-// ── Runs ────────────────────────────────────────────────
-
-export function getRuns(): Run[] {
-  return load<Run>(KEYS.RUNS).sort((a, b) => b.date.localeCompare(a.date));
+export async function addRun(run: Run): Promise<void> {
+  const { error } = await supabase.from('runs').insert(run);
+  if (error) throw error;
 }
 
-export function addRun(run: Run): void {
-  const runs = load<Run>(KEYS.RUNS);
-  persist(KEYS.RUNS, [...runs, run]);
+export async function updateRun(run: Run): Promise<void> {
+  const { error } = await supabase.from('runs').update(run).eq('id', run.id);
+  if (error) throw error;
 }
 
-export function updateRun(run: Run): void {
-  const runs = load<Run>(KEYS.RUNS);
-  persist(KEYS.RUNS, runs.map(r => (r.id === run.id ? run : r)));
+export async function deleteRun(id: string): Promise<void> {
+  const { error } = await supabase.from('runs').delete().eq('id', id);
+  if (error) throw error;
 }
 
-export function deleteRun(id: string): void {
-  persist(KEYS.RUNS, load<Run>(KEYS.RUNS).filter(r => r.id !== id));
+// ── Goals ────────────────────────────────────────────────────────────────
+
+export async function getGoals(): Promise<Goal[]> {
+  const { data, error } = await supabase
+    .from('goals')
+    .select('*')
+    .order('created_at', { ascending: false });
+  if (error) throw error;
+  return (data ?? []).map(parseGoal);
 }
 
-// ── Goals ───────────────────────────────────────────────
-
-export function getGoals(): Goal[] {
-  return load<Goal>(KEYS.GOALS).sort((a, b) => b.created_at.localeCompare(a.created_at));
+export async function addGoal(goal: Goal): Promise<void> {
+  const { error } = await supabase.from('goals').insert(goal);
+  if (error) throw error;
 }
 
-export function addGoal(goal: Goal): void {
-  const goals = load<Goal>(KEYS.GOALS);
-  persist(KEYS.GOALS, [...goals, goal]);
+export async function updateGoal(goal: Goal): Promise<void> {
+  const { error } = await supabase.from('goals').update(goal).eq('id', goal.id);
+  if (error) throw error;
 }
 
-export function updateGoal(goal: Goal): void {
-  const goals = load<Goal>(KEYS.GOALS);
-  persist(KEYS.GOALS, goals.map(g => (g.id === goal.id ? goal : g)));
+export async function deleteGoal(id: string): Promise<void> {
+  const { error } = await supabase.from('goals').delete().eq('id', id);
+  if (error) throw error;
 }
 
-export function deleteGoal(id: string): void {
-  persist(KEYS.GOALS, load<Goal>(KEYS.GOALS).filter(g => g.id !== id));
+// ── Race Records ──────────────────────────────────────────────────────────
+
+export async function getRaceRecords(): Promise<RaceRecord[]> {
+  const { data, error } = await supabase
+    .from('race_records')
+    .select('*')
+    .order('date', { ascending: false });
+  if (error) throw error;
+  return (data ?? []).map(parseRecord);
 }
 
-// ── Race Records ─────────────────────────────────────────
-
-export function getRaceRecords(): RaceRecord[] {
-  return load<RaceRecord>(KEYS.RECORDS).sort((a, b) => b.date.localeCompare(a.date));
+export async function addRaceRecord(record: RaceRecord): Promise<void> {
+  const { error } = await supabase.from('race_records').insert(record);
+  if (error) throw error;
 }
 
-export function addRaceRecord(record: RaceRecord): void {
-  const records = load<RaceRecord>(KEYS.RECORDS);
-  persist(KEYS.RECORDS, [...records, record]);
+export async function updateRaceRecord(record: RaceRecord): Promise<void> {
+  const { error } = await supabase.from('race_records').update(record).eq('id', record.id);
+  if (error) throw error;
 }
 
-export function updateRaceRecord(record: RaceRecord): void {
-  const records = load<RaceRecord>(KEYS.RECORDS);
-  persist(KEYS.RECORDS, records.map(r => (r.id === record.id ? record : r)));
-}
-
-export function deleteRaceRecord(id: string): void {
-  persist(KEYS.RECORDS, load<RaceRecord>(KEYS.RECORDS).filter(r => r.id !== id));
+export async function deleteRaceRecord(id: string): Promise<void> {
+  const { error } = await supabase.from('race_records').delete().eq('id', id);
+  if (error) throw error;
 }
