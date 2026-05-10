@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { RaceRecord, RaceType } from '../types';
 import { RACE_TYPE_LABELS, RACE_TYPE_DISTANCES } from '../types';
 import { useApp } from '../context/AppContext';
+import { useAuth } from '../context/AuthContext';
 import Header from '../components/Header';
 import RaceRecordCard from '../components/RaceRecordCard';
 import RaceRecordForm from '../components/RaceRecordForm';
@@ -11,6 +12,7 @@ const STANDARD_TYPES: RaceType[] = ['5k', '10k', 'half_marathon', 'marathon'];
 
 export default function RaceRecordsPage() {
   const { raceRecords, addRaceRecord, updateRaceRecord, deleteRaceRecord } = useApp();
+  const { user } = useAuth();
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState<RaceRecord | null>(null);
 
@@ -32,16 +34,23 @@ export default function RaceRecordsPage() {
     <>
       <Header title="Race Records" />
       <div className="page">
-        {showForm || editing ? (
-          <RaceRecordForm
-            onSubmit={handleSubmit}
-            initialRecord={editing}
-            onCancel={() => { setShowForm(false); setEditing(null); }}
-          />
+        {user ? (
+          showForm || editing ? (
+            <RaceRecordForm
+              onSubmit={handleSubmit}
+              initialRecord={editing}
+              onCancel={() => { setShowForm(false); setEditing(null); }}
+            />
+          ) : (
+            <button className="btn btn-primary btn-full goals-add-btn" onClick={() => setShowForm(true)}>
+              + Add Race Record
+            </button>
+          )
         ) : (
-          <button className="btn btn-primary btn-full goals-add-btn" onClick={() => setShowForm(true)}>
-            + Add Race Record
-          </button>
+          <div className="auth-nudge card">
+            <span>🔒</span>
+            <p>Sign in to add and edit race records.</p>
+          </div>
         )}
 
         {raceRecords.length === 0 && (
@@ -72,8 +81,8 @@ export default function RaceRecordsPage() {
                   key={record.id}
                   record={record}
                   isBest={idx === 0}
-                  onEdit={setEditing}
-                  onDelete={deleteRaceRecord}
+                  onEdit={user ? setEditing : undefined}
+                  onDelete={user ? deleteRaceRecord : undefined}
                 />
               ))}
             </section>

@@ -209,6 +209,22 @@ textarea {
   margin-bottom: 12px;
 }
 
+/* ── Auth nudge ──────────────────────────────── */
+
+.auth-nudge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.auth-nudge span {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
 /* ── Empty states ────────────────────────────── */
 
 .empty-state {

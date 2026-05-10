@@ -47,17 +47,28 @@ create table if not exists race_records (
 
 create index race_records_type_time_idx on race_records (race_type, time_seconds asc);
 
--- ── Permissions ───────────────────────────────────────────────────────────
--- Supabase grants SELECT to anon by default but not write operations.
--- For a personal app without auth, grant full access to the anon role.
--- When you add Supabase Auth later, replace these with RLS policies instead.
+-- ── Permissions & Row Level Security ─────────────────────────────────────
+-- Anyone can read. Only authenticated users (you) can write.
+-- Run these after creating your account via Supabase Auth.
 
-grant select, insert, update, delete on runs           to anon;
-grant select, insert, update, delete on goals          to anon;
-grant select, insert, update, delete on race_records   to anon;
+alter table runs           enable row level security;
+alter table goals          enable row level security;
+alter table race_records   enable row level security;
 
--- ── Row Level Security (add when you introduce auth) ──────────────────────
--- alter table runs enable row level security;
--- create policy "Users own their runs" on runs
---   using (auth.uid() = user_id) with check (auth.uid() = user_id);
--- (repeat for goals and race_records)
+-- Public read
+create policy "public_read_runs"    on runs           for select using (true);
+create policy "public_read_goals"   on goals          for select using (true);
+create policy "public_read_records" on race_records   for select using (true);
+
+-- Authenticated write
+create policy "auth_insert_runs"    on runs           for insert to authenticated with check (true);
+create policy "auth_update_runs"    on runs           for update to authenticated using (true);
+create policy "auth_delete_runs"    on runs           for delete to authenticated using (true);
+
+create policy "auth_insert_goals"   on goals          for insert to authenticated with check (true);
+create policy "auth_update_goals"   on goals          for update to authenticated using (true);
+create policy "auth_delete_goals"   on goals          for delete to authenticated using (true);
+
+create policy "auth_insert_records" on race_records   for insert to authenticated with check (true);
+create policy "auth_update_records" on race_records   for update to authenticated using (true);
+create policy "auth_delete_records" on race_records   for delete to authenticated using (true);

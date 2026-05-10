@@ -1,5 +1,6 @@
 import { HashRouter as BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppProvider } from './context/AppContext';
+import { AuthProvider } from './context/AuthContext';
 import NavBar from './components/NavBar';
 import Dashboard from './pages/Dashboard';
 import LogRun from './pages/LogRun';
@@ -9,17 +10,19 @@ import RaceRecordsPage from './pages/RaceRecordsPage';
 
 export default function App() {
   return (
-    <AppProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/log" element={<LogRun />} />
-          <Route path="/stats" element={<StatsPage />} />
-          <Route path="/goals" element={<GoalsPage />} />
-          <Route path="/records" element={<RaceRecordsPage />} />
-        </Routes>
-        <NavBar />
-      </BrowserRouter>
-    </AppProvider>
+    <AuthProvider>
+      <AppProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/log" element={<LogRun />} />
+            <Route path="/stats" element={<StatsPage />} />
+            <Route path="/goals" element={<GoalsPage />} />
+            <Route path="/records" element={<RaceRecordsPage />} />
+          </Routes>
+          <NavBar />
+        </BrowserRouter>
+      </AppProvider>
+    </AuthProvider>
   );
 }

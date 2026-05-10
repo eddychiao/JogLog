@@ -12,6 +12,7 @@
   padding: 0 16px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
@@ -46,7 +47,44 @@
   margin-top: 2px;
 }
 
-/* ── Desktop ── full-width bar to the right of sidebar ── */
+/* ── Auth button ─────────────────────────────── */
+
+.header-auth {
+  flex-shrink: 0;
+}
+
+.auth-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border-radius: var(--radius-xs);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  color: var(--text-secondary);
+  transition: background var(--transition), color var(--transition);
+}
+
+.auth-btn:hover {
+  background: var(--surface-2);
+}
+
+.auth-btn--in {
+  color: var(--accent);
+  border-color: var(--accent-light);
+  background: var(--accent-light);
+}
+
+.auth-btn--in:hover {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+/* ── Desktop ─────────────────────────────────── */
 
 @media (min-width: 768px) {
   .app-header {
@@ -58,8 +96,6 @@
     padding: 0 32px;
   }
 
-  /* On desktop the sidebar already shows the logo/name,
-     so hide the in-header logo to avoid duplication */
   .header-logo {
     display: none;
   }

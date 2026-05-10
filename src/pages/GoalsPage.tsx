@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useApp } from '../context/AppContext';
+import { useAuth } from '../context/AuthContext';
 import Header from '../components/Header';
 import GoalForm from '../components/GoalForm';
 import GoalCard from '../components/GoalCard';
@@ -8,6 +9,7 @@ import './GoalsPage.css';
 
 export default function GoalsPage() {
   const { goals, runs, addGoal, deleteGoal } = useApp();
+  const { user } = useAuth();
   const [showForm, setShowForm] = useState(false);
 
   const activeGoals = goals.filter(g => g.end_date >= today());
@@ -17,12 +19,19 @@ export default function GoalsPage() {
     <>
       <Header title="Goals" />
       <div className="page">
-        {showForm ? (
-          <GoalForm onSubmit={g => { addGoal(g); setShowForm(false); }} onCancel={() => setShowForm(false)} />
+        {user ? (
+          showForm ? (
+            <GoalForm onSubmit={g => { addGoal(g); setShowForm(false); }} onCancel={() => setShowForm(false)} />
+          ) : (
+            <button className="btn btn-primary btn-full goals-add-btn" onClick={() => setShowForm(true)}>
+              + New Goal
+            </button>
+          )
         ) : (
-          <button className="btn btn-primary btn-full goals-add-btn" onClick={() => setShowForm(true)}>
-            + New Goal
-          </button>
+          <div className="auth-nudge card">
+            <span>🔒</span>
+            <p>Sign in to add and manage goals.</p>
+          </div>
         )}
 
         {goals.length === 0 && (
@@ -40,7 +49,7 @@ export default function GoalsPage() {
                 key={goal.id}
                 goal={goal}
                 runs={runs}
-                onDelete={deleteGoal}
+                onDelete={user ? deleteGoal : undefined}
               />
             ))}
           </section>
@@ -54,7 +63,7 @@ export default function GoalsPage() {
                 key={goal.id}
                 goal={goal}
                 runs={runs}
-                onDelete={deleteGoal}
+                onDelete={user ? deleteGoal : undefined}
               />
             ))}
           </section>
