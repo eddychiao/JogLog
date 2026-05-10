@@ -1,3 +1,5 @@
+/* ── Hero banner ─────────────────────────────── */
+
 .dashboard-hero {
   background: linear-gradient(135deg, var(--primary) 0%, #ff8c5a 100%);
   border-radius: var(--radius);
@@ -5,7 +7,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0;
   margin-bottom: 16px;
   color: white;
   box-shadow: 0 4px 20px rgba(255, 107, 53, 0.3);
@@ -38,12 +39,16 @@
   margin: 0 8px;
 }
 
+/* ── Stats grid ──────────────────────────────── */
+
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
   margin-bottom: 20px;
 }
+
+/* ── Section headers ─────────────────────────── */
 
 .section-header {
   display: flex;
@@ -52,17 +57,22 @@
   margin-bottom: 12px;
 }
 
-.section-title {
-  font-size: 17px;
-  font-weight: 700;
-}
-
 .section-link {
   font-size: 13px;
   font-weight: 600;
   color: var(--primary);
   text-decoration: none;
 }
+
+/* ── Bottom layout (goals + runs) ────────────── */
+
+.dashboard-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ── FAB ─────────────────────────────────────── */
 
 .fab {
   position: fixed;
@@ -89,4 +99,54 @@
 
 .fab:active {
   transform: scale(0.95);
+}
+
+/* ── Desktop overrides ───────────────────────── */
+
+@media (min-width: 768px) {
+  .dashboard-hero {
+    padding: 32px 40px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+  }
+
+  .hero-value {
+    font-size: 52px;
+  }
+
+  .hero-label {
+    font-size: 14px;
+  }
+
+  .hero-divider {
+    height: 60px;
+    margin: 0 24px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+
+  /* Two-column layout: goals left, runs right */
+  .dashboard-bottom {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: start;
+    margin-top: 4px;
+  }
+
+  /* When there are no goals, recent runs spans full width */
+  .dashboard-bottom > section:only-child {
+    grid-column: 1 / -1;
+  }
+
+  .fab {
+    bottom: 32px;
+    right: 40px;
+    width: 56px;
+    height: 56px;
+  }
 }

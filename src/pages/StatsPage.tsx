@@ -72,19 +72,21 @@ export default function StatsPage() {
               <StatsCard label="Current Streak" value={`${stats.currentStreak}d`} icon="🔥" />
             </div>
 
-            <section className="chart-section">
-              <h2 className="section-title">Pace Trend</h2>
-              <div className="card chart-card">
-                <PaceChart runs={runs} />
-              </div>
-            </section>
+            <div className="charts-row">
+              <section className="chart-section">
+                <h2 className="section-title">Pace Trend</h2>
+                <div className="card chart-card">
+                  <PaceChart runs={runs} />
+                </div>
+              </section>
 
-            <section className="chart-section">
-              <h2 className="section-title">Weekly Distance</h2>
-              <div className="card chart-card">
-                <WeeklyDistanceChart runs={runs} />
-              </div>
-            </section>
+              <section className="chart-section">
+                <h2 className="section-title">Weekly Distance</h2>
+                <div className="card chart-card">
+                  <WeeklyDistanceChart runs={runs} />
+                </div>
+              </section>
+            </div>
           </>
         )}
       </div>

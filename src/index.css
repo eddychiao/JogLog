@@ -239,12 +239,42 @@ textarea {
   border-radius: 2px;
 }
 
-/* ── Responsive ──────────────────────────────── */
+/* ── Responsive: tablet ──────────────────────── */
 
 @media (min-width: 500px) {
   .page {
     padding: 20px 24px;
     padding-top: calc(var(--header-height) + 20px);
     padding-bottom: calc(var(--nav-height) + 28px);
+  }
+}
+
+/* ── Responsive: desktop ─────────────────────── */
+
+@media (min-width: 768px) {
+  :root {
+    --sidebar-width: 220px;
+    --nav-height: 0px;    /* no bottom bar on desktop */
+    --header-height: 60px;
+  }
+
+  #root {
+    max-width: 100%;
+  }
+
+  .page {
+    margin-left: var(--sidebar-width);
+    max-width: calc(var(--sidebar-width) + 1080px);
+    padding: 40px 48px;
+    padding-top: calc(var(--header-height) + 40px);
+    padding-bottom: 48px;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  .section-title {
+    font-size: 18px;
   }
 }

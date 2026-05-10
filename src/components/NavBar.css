@@ -1,3 +1,5 @@
+/* ── Mobile (base) ── bottom tab bar ────────────────── */
+
 .navbar {
   position: fixed;
   bottom: 0;
@@ -16,6 +18,10 @@
   box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.06);
 }
 
+.nav-brand {
+  display: none;
+}
+
 .nav-item {
   display: flex;
   flex-direction: column;
@@ -25,7 +31,7 @@
   border-radius: var(--radius-sm);
   text-decoration: none;
   color: var(--text-muted);
-  transition: color var(--transition), transform var(--transition);
+  transition: color var(--transition), background var(--transition), transform var(--transition);
   flex: 1;
   min-width: 0;
 }
@@ -47,4 +53,92 @@
   font-weight: 600;
   letter-spacing: 0.2px;
   white-space: nowrap;
+}
+
+/* ── Desktop ── left sidebar ─────────────────────────── */
+
+@media (min-width: 768px) {
+  .navbar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: auto;
+    transform: none;
+    width: var(--sidebar-width);
+    max-width: var(--sidebar-width);
+    height: 100dvh;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 2px;
+    padding: calc(var(--header-height) + 16px) 10px 24px;
+    border-top: none;
+    border-right: 1px solid var(--border);
+    box-shadow: 2px 0 16px rgba(0, 0, 0, 0.04);
+    overflow-y: auto;
+  }
+
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 14px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--header-height);
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .nav-brand-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--primary);
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    flex-shrink: 0;
+  }
+
+  .nav-brand-name {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.3px;
+  }
+
+  .nav-item {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 14px;
+    flex: none;
+    border-radius: var(--radius-sm);
+  }
+
+  .nav-item:hover {
+    background: var(--surface-2);
+    color: var(--text);
+  }
+
+  .nav-item.active {
+    background: var(--primary-light);
+    color: var(--primary);
+  }
+
+  .nav-item.active:hover {
+    background: var(--primary-light);
+  }
+
+  .nav-label {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0;
+  }
 }

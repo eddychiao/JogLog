@@ -73,25 +73,27 @@ export default function Dashboard() {
           <StatsCard label="Best Pace" value={stats.bestPaceStr} icon="⚡" />
         </div>
 
-        {activeGoals.length > 0 && (
-          <section>
-            <div className="section-header">
-              <h2 className="section-title">Active Goals</h2>
-              <Link to="/goals" className="section-link">See all</Link>
-            </div>
-            {activeGoals.map(goal => (
-              <GoalCard key={goal.id} goal={goal} runs={runs} />
-            ))}
-          </section>
-        )}
+        <div className="dashboard-bottom">
+          {activeGoals.length > 0 && (
+            <section className="dashboard-goals">
+              <div className="section-header">
+                <h2 className="section-title">Active Goals</h2>
+                <Link to="/goals" className="section-link">See all</Link>
+              </div>
+              {activeGoals.map(goal => (
+                <GoalCard key={goal.id} goal={goal} runs={runs} />
+              ))}
+            </section>
+          )}
 
-        <section>
-          <div className="section-header">
-            <h2 className="section-title">Recent Runs</h2>
-            <Link to="/log" className="section-link">See all</Link>
-          </div>
-          <RunList runs={recentRuns} limit={5} />
-        </section>
+          <section className="dashboard-runs">
+            <div className="section-header">
+              <h2 className="section-title">Recent Runs</h2>
+              <Link to="/log" className="section-link">See all</Link>
+            </div>
+            <RunList runs={recentRuns} limit={5} />
+          </section>
+        </div>
 
         <Link to="/log" className="fab">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">

@@ -45,3 +45,30 @@
   color: var(--text-muted);
   margin-top: 2px;
 }
+
+/* ── Desktop ── full-width bar to the right of sidebar ── */
+
+@media (min-width: 768px) {
+  .app-header {
+    left: var(--sidebar-width);
+    right: 0;
+    width: auto;
+    max-width: none;
+    transform: none;
+    padding: 0 32px;
+  }
+
+  /* On desktop the sidebar already shows the logo/name,
+     so hide the in-header logo to avoid duplication */
+  .header-logo {
+    display: none;
+  }
+
+  .header-title {
+    font-size: 20px;
+  }
+
+  .header-subtitle {
+    font-size: 13px;
+  }
+}
