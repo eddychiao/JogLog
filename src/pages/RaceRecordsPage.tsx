@@ -72,6 +72,7 @@ export default function RaceRecordsPage() {
                   key={record.id}
                   record={record}
                   isBest={idx === 0}
+                  onEdit={setEditing}
                   onDelete={deleteRaceRecord}
                 />
               ))}

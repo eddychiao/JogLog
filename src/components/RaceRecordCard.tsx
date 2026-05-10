@@ -6,10 +6,11 @@ import './RaceRecord.css';
 interface RaceRecordCardProps {
   record: RaceRecord;
   isBest?: boolean;
+  onEdit?: (record: RaceRecord) => void;
   onDelete?: (id: string) => void;
 }
 
-export default function RaceRecordCard({ record, isBest, onDelete }: RaceRecordCardProps) {
+export default function RaceRecordCard({ record, isBest, onEdit, onDelete }: RaceRecordCardProps) {
   const stdDist = RACE_TYPE_DISTANCES[record.race_type];
   let paceStr = '--:--';
 
@@ -30,9 +31,14 @@ export default function RaceRecordCard({ record, isBest, onDelete }: RaceRecordC
         </div>
         <div className="race-card-right">
           {isBest && <span className="race-best-badge">🏆 PR</span>}
-          {onDelete && (
-            <button className="btn btn-secondary btn-sm" onClick={() => onDelete(record.id)}>✕</button>
-          )}
+          <div className="race-card-actions">
+            {onEdit && (
+              <button className="btn btn-secondary btn-sm" onClick={() => onEdit(record)}>Edit</button>
+            )}
+            {onDelete && (
+              <button className="btn btn-secondary btn-sm" onClick={() => onDelete(record.id)}>✕</button>
+            )}
+          </div>
         </div>
       </div>
 

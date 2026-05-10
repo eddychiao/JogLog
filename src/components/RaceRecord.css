@@ -46,6 +46,11 @@
   gap: 6px;
 }
 
+.race-card-actions {
+  display: flex;
+  gap: 6px;
+}
+
 .race-best-badge {
   font-size: 12px;
   font-weight: 700;
