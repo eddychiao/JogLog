@@ -1,0 +1,45 @@
+.run-form {
+  margin-bottom: 20px;
+}
+
+.form-heading {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+
+.duration-row {
+  display: flex;
+  gap: 8px;
+}
+
+.duration-field {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.duration-input {
+  min-width: 0;
+  text-align: center;
+}
+
+.duration-unit {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.run-notes {
+  resize: none;
+  line-height: 1.5;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}

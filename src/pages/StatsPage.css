@@ -1,0 +1,14 @@
+.stats-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.chart-section {
+  margin-bottom: 20px;
+}
+
+.chart-card {
+  padding: 16px 8px 8px;
+}
