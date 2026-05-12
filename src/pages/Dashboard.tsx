@@ -53,7 +53,7 @@ export default function Dashboard() {
 
   return (
     <>
-      <Header title="RunLog" subtitle="Track your miles" />
+      <Header title="JogLog" subtitle="Track your miles" />
       <div className="page">
         <div className="dashboard-hero">
           <div className="hero-stat">

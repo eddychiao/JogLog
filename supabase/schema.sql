@@ -1,4 +1,4 @@
--- RunLog database schema for Supabase
+-- JogLog database schema for Supabase
 -- Run this in your Supabase SQL editor after setting up your project.
 
 -- Enable the pgcrypto extension for UUID generation

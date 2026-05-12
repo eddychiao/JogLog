@@ -1,7 +1,7 @@
 /* ── Hero banner ─────────────────────────────── */
 
 .dashboard-hero {
-  background: linear-gradient(135deg, var(--primary) 0%, #ff8c5a 100%);
+  background: #E55520;
   border-radius: var(--radius);
   padding: 24px 20px;
   display: flex;

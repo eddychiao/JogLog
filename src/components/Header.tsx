@@ -17,8 +17,11 @@ export default function Header({ title, subtitle }: HeaderProps) {
       <header className="app-header">
         <div className="header-content">
           <div className="header-logo">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M3 10C3 7 5 6 9 6.5L12 6L16 7C19 8 21 10 22 13V16"/>
+              <line x1="3" y1="10" x2="3" y2="16"/>
+              <path d="M2 16H22V18a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V16"/>
+              <line x1="10" y1="10.5" x2="16" y2="9"/>
             </svg>
           </div>
           <div>
