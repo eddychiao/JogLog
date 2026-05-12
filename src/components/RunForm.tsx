@@ -33,6 +33,7 @@ export default function RunForm({ onSubmit, initialRun, onCancel }: RunFormProps
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (date > today()) return;
     const totalSeconds = secondsFromHMS(
       parseInt(hours) || 0,
       parseInt(minutes) || 0,

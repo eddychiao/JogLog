@@ -1,0 +1,255 @@
+.run-filters {
+  margin-bottom: 12px;
+}
+
+/* ── Toggle bar ───────────────────────────────── */
+
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 20px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  transition: all var(--transition);
+}
+
+.filter-toggle:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.filter-toggle--active {
+  background: var(--primary-light);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.filter-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.filter-chevron {
+  transition: transform var(--transition);
+}
+
+.filter-chevron--open {
+  transform: rotate(180deg);
+}
+
+.filter-clear {
+  padding: 7px 12px;
+  border-radius: 20px;
+  background: transparent;
+  border: 1.5px solid var(--border);
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  transition: all var(--transition);
+}
+
+.filter-clear:hover {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+/* ── Panel ────────────────────────────────────── */
+
+.filter-panel {
+  margin-top: 8px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  animation: filterIn 0.15s ease;
+}
+
+@keyframes filterIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.filter-empty {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.filter-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+/* ── Individual filter row ────────────────────── */
+
+.filter-row {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xs);
+  padding: 8px 10px;
+}
+
+.filter-row-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.filter-row-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+}
+
+.filter-remove-btn {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 16px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+  padding: 0;
+}
+
+.filter-remove-btn:hover {
+  background: var(--danger-light);
+  color: var(--danger);
+}
+
+/* ── Date range inputs ────────────────────────── */
+
+.filter-date-inputs {
+  display: flex;
+  gap: 8px;
+}
+
+.filter-date-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.filter-field-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+/* ── Comparison inputs ────────────────────────── */
+
+.filter-comparison-inputs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ── Shared input / select styles ─────────────── */
+
+.filter-input,
+.filter-select {
+  padding: 5px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xs);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 13px;
+  font-family: inherit;
+}
+
+.filter-input:focus,
+.filter-select:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.filter-date-inputs .filter-input {
+  width: 100%;
+}
+
+.filter-input--value {
+  width: 70px;
+  flex-shrink: 0;
+}
+
+.filter-select--operator {
+  width: 52px;
+  flex-shrink: 0;
+  padding-right: 4px;
+}
+
+.filter-select--unit {
+  width: 52px;
+  flex-shrink: 0;
+}
+
+.filter-unit-label {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* ── Add filter row ───────────────────────────── */
+
+.filter-add-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.filter-add-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.filter-add-btn {
+  padding: 4px 10px;
+  border-radius: 12px;
+  background: var(--surface);
+  border: 1.5px dashed var(--border);
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  transition: all var(--transition);
+}
+
+.filter-add-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--primary-light);
+  border-style: solid;
+}
