@@ -10,7 +10,7 @@ interface RaceRecordFormProps {
   onCancel?: () => void;
 }
 
-const RACE_TYPES: RaceType[] = ['5k', '10k', 'half_marathon', 'marathon', 'custom'];
+const RACE_TYPES: RaceType[] = ['5k', '10k', 'half_marathon', 'marathon', 'murph', 'custom'];
 
 export default function RaceRecordForm({ onSubmit, initialRecord, onCancel }: RaceRecordFormProps) {
   const [raceName, setRaceName] = useState(initialRecord?.race_name ?? '');

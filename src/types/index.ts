@@ -18,7 +18,7 @@ export interface Goal {
   created_at: string;
 }
 
-export type RaceType = '5k' | '10k' | 'half_marathon' | 'marathon' | 'custom';
+export type RaceType = '5k' | '10k' | 'half_marathon' | 'marathon' | 'murph' | 'custom';
 
 export interface RaceRecord {
   id: string;
@@ -38,6 +38,7 @@ export const RACE_TYPE_LABELS: Record<RaceType, string> = {
   '10k': '10K',
   'half_marathon': 'Half Marathon',
   'marathon': 'Marathon',
+  'murph': 'Murph',
   'custom': 'Custom',
 };
 
