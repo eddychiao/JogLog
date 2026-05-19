@@ -8,7 +8,7 @@ import RaceRecordCard from '../components/RaceRecordCard';
 import RaceRecordForm from '../components/RaceRecordForm';
 import './RaceRecordsPage.css';
 
-const STANDARD_TYPES: RaceType[] = ['5k', '10k', 'half_marathon', 'marathon'];
+const STANDARD_TYPES: RaceType[] = ['5k', '10k', 'half_marathon', 'marathon', 'murph'];
 
 export default function RaceRecordsPage() {
   const { raceRecords, addRaceRecord, updateRaceRecord, deleteRaceRecord } = useApp();
