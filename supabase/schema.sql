@@ -35,7 +35,7 @@ create table if not exists goals (
 create table if not exists race_records (
   id            uuid        primary key default gen_random_uuid(),
   race_name     text        not null,
-  race_type     text        not null check (race_type in ('5k', '10k', 'half_marathon', 'marathon', 'custom')),
+  race_type     text        not null check (race_type in ('5k', '10k', 'half_marathon', 'marathon', 'murph', 'custom')),
   date          date        not null,
   time_seconds  integer     not null check (time_seconds > 0),
   distance      numeric(10, 2),
