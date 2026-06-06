@@ -1,4 +1,40 @@
+.time-range-picker {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.time-range-btn {
+  flex: 1;
+  padding: 8px 6px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: var(--radius-xs);
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  color: var(--text-muted);
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.time-range-btn.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.time-range-btn:not(.active):hover {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
 .stats-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.stats-row-2 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
@@ -22,8 +58,22 @@
 /* ── Desktop ─────────────────────────────────── */
 
 @media (min-width: 768px) {
+  .time-range-picker {
+    margin-bottom: 20px;
+  }
+
+  .time-range-btn {
+    font-size: 14px;
+    padding: 9px 10px;
+  }
+
   .stats-grid-2 {
     grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+
+  .stats-row-2 {
     gap: 14px;
     margin-bottom: 28px;
   }
