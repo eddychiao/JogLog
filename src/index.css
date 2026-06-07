@@ -1,7 +1,8 @@
 :root {
-  --primary: #FF6B35;
-  --primary-dark: #e55a25;
-  --primary-light: #fff3ef;
+  --primary: #FC4C02;
+  --primary-dark: #df4300;
+  --primary-rgb: 252, 76, 2;
+  --primary-light: rgba(252, 76, 2, 0.1);
   --secondary: #1A1A2E;
   --accent: #00C49F;
   --accent-light: #e6faf7;
@@ -102,7 +103,7 @@ button {
 
 .btn-primary:hover {
   background: var(--primary-dark);
-  box-shadow: 0 4px 14px rgba(255, 107, 53, 0.38);
+  box-shadow: 0 4px 14px rgba(var(--primary-rgb), 0.38);
 }
 
 .btn-primary:active {
@@ -179,7 +180,7 @@ textarea {
 .form-input:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.12);
+  box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.12);
 }
 
 .form-row {

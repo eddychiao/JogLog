@@ -1,7 +1,7 @@
 /* ── Hero banner ─────────────────────────────── */
 
 .dashboard-hero {
-  background: #E55520;
+  background: var(--primary);
   border-radius: var(--radius);
   padding: 24px 20px;
   display: flex;
@@ -9,7 +9,7 @@
   justify-content: center;
   margin-bottom: 16px;
   color: white;
-  box-shadow: 0 4px 20px rgba(255, 107, 53, 0.3);
+  box-shadow: 0 4px 20px rgba(var(--primary-rgb), 0.3);
 }
 
 .hero-stat {
@@ -86,7 +86,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 16px rgba(255, 107, 53, 0.45);
+  box-shadow: 0 4px 16px rgba(var(--primary-rgb), 0.45);
   text-decoration: none;
   transition: transform var(--transition), box-shadow var(--transition);
   z-index: 50;
@@ -94,7 +94,7 @@
 
 .fab:hover {
   transform: scale(1.08);
-  box-shadow: 0 6px 20px rgba(255, 107, 53, 0.5);
+  box-shadow: 0 6px 20px rgba(var(--primary-rgb), 0.5);
 }
 
 .fab:active {
