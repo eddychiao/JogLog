@@ -47,6 +47,15 @@ export default function LogRun() {
     }
   }
 
+  async function handleDelete(id: string) {
+    try {
+      await deleteRun(id);
+      setBanner({ type: 'success', message: 'Run deleted successfully.' });
+    } catch {
+      setBanner({ type: 'error', message: "Couldn't delete run. Please try again." });
+    }
+  }
+
   return (
     <>
       <Header title="Log a Run" />
@@ -88,7 +97,7 @@ export default function LogRun() {
         <RunList
           runs={pagedRuns}
           onEdit={user ? setEditing : undefined}
-          onDelete={user ? deleteRun : undefined}
+          onDelete={user ? handleDelete : undefined}
           showYearHeaders
         />
 
