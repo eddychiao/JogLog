@@ -6,6 +6,7 @@ import Header from '../components/Header';
 import RunForm from '../components/RunForm';
 import RunList from '../components/RunList';
 import RunFilters from '../components/RunFilters';
+import Banner from '../components/Banner';
 import type { FilterRow } from '../utils/filters';
 import { applyFilters } from '../utils/filters';
 import './LogRun.css';
@@ -18,6 +19,7 @@ export default function LogRun() {
   const [editing, setEditing] = useState<Run | null>(null);
   const [filters, setFilters] = useState<FilterRow[]>([]);
   const [page, setPage] = useState(1);
+  const [banner, setBanner] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
   const filteredRuns = useMemo(() => applyFilters(runs, filters), [runs, filters]);
   const totalPages = Math.max(1, Math.ceil(filteredRuns.length / RUNS_PER_PAGE));
@@ -26,12 +28,22 @@ export default function LogRun() {
   // Reset to page 1 whenever filters change
   useEffect(() => { setPage(1); }, [filters]);
 
-  function handleSubmit(run: Run) {
-    if (editing) {
-      updateRun(run);
-      setEditing(null);
-    } else {
-      addRun(run);
+  async function handleSubmit(run: Run) {
+    const wasEditing = editing !== null;
+    try {
+      if (wasEditing) {
+        await updateRun(run);
+        setEditing(null);
+      } else {
+        await addRun(run);
+      }
+      setBanner({
+        type: 'success',
+        message: wasEditing ? 'Run updated successfully.' : 'Run logged successfully.',
+      });
+    } catch {
+      setBanner({ type: 'error', message: "Couldn't save your run. Please try again." });
+      throw new Error('Failed to save run');
     }
   }
 
@@ -40,11 +52,20 @@ export default function LogRun() {
       <Header title="Log a Run" />
       <div className="page">
         {user ? (
-          <RunForm
-            onSubmit={handleSubmit}
-            initialRun={editing}
-            onCancel={editing ? () => setEditing(null) : undefined}
-          />
+          <>
+            {banner && (
+              <Banner
+                type={banner.type}
+                message={banner.message}
+                onDismiss={() => setBanner(null)}
+              />
+            )}
+            <RunForm
+              onSubmit={handleSubmit}
+              initialRun={editing}
+              onCancel={editing ? () => setEditing(null) : undefined}
+            />
+          </>
         ) : (
           <div className="auth-nudge card">
             <span>🔒</span>

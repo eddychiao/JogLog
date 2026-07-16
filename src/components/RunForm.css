@@ -1,5 +1,12 @@
 .run-form {
   margin-bottom: 20px;
+  transition: opacity var(--transition), transform var(--transition);
+}
+
+.run-form.is-submitting {
+  opacity: 0.7;
+  transform: scale(0.99);
+  pointer-events: none;
 }
 
 .form-heading {

@@ -4,7 +4,7 @@ import { generateId, today, secondsFromHMS, hmsFromSeconds } from '../utils/help
 import './RunForm.css';
 
 interface RunFormProps {
-  onSubmit: (run: Run) => void;
+  onSubmit: (run: Run) => Promise<void>;
   initialRun?: Run | null;
   onCancel?: () => void;
 }
@@ -17,6 +17,7 @@ export default function RunForm({ onSubmit, initialRun, onCancel }: RunFormProps
   const [distance, setDistance] = useState('');
   const [unit, setUnit] = useState<'miles' | 'km'>('miles');
   const [notes, setNotes] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     if (initialRun) {
@@ -31,7 +32,7 @@ export default function RunForm({ onSubmit, initialRun, onCancel }: RunFormProps
     }
   }, [initialRun]);
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (date > today()) return;
     const totalSeconds = secondsFromHMS(
@@ -50,20 +51,27 @@ export default function RunForm({ onSubmit, initialRun, onCancel }: RunFormProps
       notes: notes.trim() || undefined,
       created_at: initialRun?.created_at ?? new Date().toISOString(),
     };
-    onSubmit(run);
 
-    if (!initialRun) {
-      setDate(today());
-      setHours('0');
-      setMinutes('');
-      setSeconds('');
-      setDistance('');
-      setNotes('');
+    setSubmitting(true);
+    try {
+      await onSubmit(run);
+      if (!initialRun) {
+        setDate(today());
+        setHours('0');
+        setMinutes('');
+        setSeconds('');
+        setDistance('');
+        setNotes('');
+      }
+    } catch {
+      // Keep the entered values so the user can retry; parent shows the error banner.
+    } finally {
+      setSubmitting(false);
     }
   }
 
   return (
-    <form className="run-form card" onSubmit={handleSubmit}>
+    <form className={`run-form card ${submitting ? 'is-submitting' : ''}`} onSubmit={handleSubmit}>
       <h2 className="form-heading">{initialRun ? 'Edit Run' : 'Log a Run'}</h2>
 
       <div className="form-group">
@@ -161,12 +169,12 @@ export default function RunForm({ onSubmit, initialRun, onCancel }: RunFormProps
 
       <div className="form-actions">
         {onCancel && (
-          <button type="button" className="btn btn-secondary" onClick={onCancel}>
+          <button type="button" className="btn btn-secondary" onClick={onCancel} disabled={submitting}>
             Cancel
           </button>
         )}
-        <button type="submit" className="btn btn-primary" style={{ flex: 1 }}>
-          {initialRun ? 'Save Changes' : 'Log Run'}
+        <button type="submit" className="btn btn-primary" style={{ flex: 1 }} disabled={submitting}>
+          {submitting ? 'Saving…' : initialRun ? 'Save Changes' : 'Log Run'}
         </button>
       </div>
     </form>
