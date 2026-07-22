@@ -29,6 +29,12 @@ function darkenHex(hex: string, amount = 0.14): string {
   return '#' + rgb.map(c => Math.round(c * f).toString(16).padStart(2, '0')).join('');
 }
 
+function lightenHex(hex: string, amount = 0.3): string {
+  const rgb = hexToRgb(hex);
+  if (!rgb) return hex;
+  return '#' + rgb.map(c => Math.round(c + (255 - c) * amount).toString(16).padStart(2, '0')).join('');
+}
+
 export function applyThemeColor(hex: string) {
   const rgb = hexToRgb(hex);
   if (!rgb) return;
@@ -38,6 +44,7 @@ export function applyThemeColor(hex: string) {
   root.style.setProperty('--primary-rgb', `${r}, ${g}, ${b}`);
   root.style.setProperty('--primary-dark', darkenHex(hex));
   root.style.setProperty('--primary-light', `rgba(${r}, ${g}, ${b}, 0.1)`);
+  root.style.setProperty('--primary-lighten', lightenHex(hex));
 }
 
 export function getSavedColor(): string {

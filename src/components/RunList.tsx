@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { Run } from '../types';
 import { formatDate, formatDuration, formatPace, formatPaceKm, toMiles, toKm } from '../utils/helpers';
 import './RunList.css';
@@ -13,6 +13,12 @@ interface RunListProps {
 
 export default function RunList({ runs, onEdit, onDelete, limit, showYearHeaders = false }: RunListProps) {
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!confirmDelete) return;
+    const resetTimer = setTimeout(() => setConfirmDelete(null), 3000);
+    return () => clearTimeout(resetTimer);
+  }, [confirmDelete]);
 
   const displayed = limit ? runs.slice(0, limit) : runs;
 

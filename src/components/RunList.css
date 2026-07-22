@@ -79,9 +79,15 @@
 
 .run-card-actions {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   justify-content: flex-end;
   margin-top: 8px;
+}
+
+.run-card-actions .btn {
+  min-height: 38px;
+  padding-left: 16px;
+  padding-right: 16px;
 }
 
 /* ── Year group headers ───────────────────────── */
