@@ -3,7 +3,7 @@
 }
 
 .goal-card--done {
-  border-left: 4px solid var(--accent);
+  border-left: 4px solid var(--primary);
 }
 
 .goal-card-header {
@@ -27,8 +27,8 @@
 }
 
 .goal-done-badge {
-  background: var(--accent-light);
-  color: var(--accent);
+  background: var(--primary-light);
+  color: var(--primary);
   padding: 4px 10px;
   border-radius: 20px;
   font-size: 12px;
@@ -72,7 +72,7 @@
 }
 
 .goal-card--done .goal-progress-fill {
-  background: linear-gradient(90deg, var(--accent), #00ddb5);
+  background: linear-gradient(90deg, var(--primary), var(--primary-lighten));
 }
 
 .goal-projections {

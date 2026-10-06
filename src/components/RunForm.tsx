@@ -11,7 +11,7 @@ interface RunFormProps {
 
 export default function RunForm({ onSubmit, initialRun, onCancel }: RunFormProps) {
   const [date, setDate] = useState(today());
-  const [hours, setHours] = useState('0');
+  const [hours, setHours] = useState('');
   const [minutes, setMinutes] = useState('');
   const [seconds, setSeconds] = useState('');
   const [distance, setDistance] = useState('');
@@ -57,7 +57,7 @@ export default function RunForm({ onSubmit, initialRun, onCancel }: RunFormProps
       await onSubmit(run);
       if (!initialRun) {
         setDate(today());
-        setHours('0');
+        setHours('');
         setMinutes('');
         setSeconds('');
         setDistance('');
@@ -110,7 +110,6 @@ export default function RunForm({ onSubmit, initialRun, onCancel }: RunFormProps
               max="59"
               value={minutes}
               onChange={e => setMinutes(e.target.value)}
-              required
             />
             <span className="duration-unit">m</span>
           </div>

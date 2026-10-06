@@ -15,7 +15,7 @@ export default function GoalCard({ goal, runs, onDelete }: GoalCardProps) {
 
   const completedMiles = relevantRuns.reduce((sum, r) => sum + toMiles(r.distance, r.unit), 0);
   const targetMiles = goal.unit === 'km' ? goal.target_distance * 0.621371 : goal.target_distance;
-  const progress = Math.min(100, (completedMiles / targetMiles) * 100);
+  const progress = (completedMiles / targetMiles) * 100;
   const remaining = Math.max(0, targetMiles - completedMiles);
   const days = daysRemaining(goal.end_date);
   const weeks = weeksRemaining(goal.end_date);
@@ -67,7 +67,7 @@ export default function GoalCard({ goal, runs, onDelete }: GoalCardProps) {
       <div className="goal-progress-bar">
         <div
           className="goal-progress-fill"
-          style={{ width: `${progress}%` }}
+          style={{ width: `${Math.min(100, progress)}%` }}
         />
       </div>
 

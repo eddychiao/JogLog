@@ -4,6 +4,7 @@ import { RACE_TYPE_LABELS, RACE_TYPE_DISTANCES } from '../types';
 import { useApp } from '../context/AppContext';
 import { useAuth } from '../context/AuthContext';
 import Header from '../components/Header';
+import Banner from '../components/Banner';
 import RaceRecordCard from '../components/RaceRecordCard';
 import RaceRecordForm from '../components/RaceRecordForm';
 import './RaceRecordsPage.css';
@@ -15,14 +16,22 @@ export default function RaceRecordsPage() {
   const { user } = useAuth();
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState<RaceRecord | null>(null);
+  const [banner, setBanner] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
   function handleSubmit(record: RaceRecord) {
     if (editing) {
       updateRaceRecord(record);
       setEditing(null);
     } else {
+      const sameType = raceRecords.filter(r => r.race_type === record.race_type);
+      const isNewRecord = sameType.every(r => record.time_seconds < r.time_seconds);
       addRaceRecord(record);
       setShowForm(false);
+      setBanner(
+        isNewRecord
+          ? { type: 'success', message: '🏆 New personal record!' }
+          : { type: 'success', message: 'Race saved — not a new record.' },
+      );
     }
   }
 
@@ -34,6 +43,13 @@ export default function RaceRecordsPage() {
     <>
       <Header title="Race Records" />
       <div className="page">
+        {banner && (
+          <Banner
+            type={banner.type}
+            message={banner.message}
+            onDismiss={() => setBanner(null)}
+          />
+        )}
         {user ? (
           showForm || editing ? (
             <RaceRecordForm

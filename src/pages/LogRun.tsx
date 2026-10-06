@@ -7,7 +7,7 @@ import RunForm from '../components/RunForm';
 import RunList from '../components/RunList';
 import RunFilters from '../components/RunFilters';
 import Banner from '../components/Banner';
-import type { DateRangeFilter, FilterRow } from '../utils/filters';
+import type { FilterRow } from '../utils/filters';
 import { applyFilters } from '../utils/filters';
 import { downloadCsv, runsToCsv } from '../utils/csv';
 import './LogRun.css';
@@ -58,11 +58,7 @@ export default function LogRun() {
   }
 
   function handleExport() {
-    const dateFilter = filters.find((f): f is DateRangeFilter => f.type === 'date_range');
-    const from = dateFilter?.from || undefined;
-    const to = dateFilter?.to || undefined;
-    const rangeSuffix = from || to ? `_${from ?? 'start'}_to_${to ?? 'now'}` : '';
-    downloadCsv(`joglog-runs${rangeSuffix}.csv`, runsToCsv(filteredRuns));
+    downloadCsv('joglog-runs.csv', runsToCsv(runs));
   }
 
   return (
@@ -99,7 +95,7 @@ export default function LogRun() {
           {filteredRuns.length === runs.length && runs.length > 0 && (
             <span className="history-count">{runs.length} total</span>
           )}
-          {filteredRuns.length > 0 && (
+          {runs.length > 0 && (
             <button className="export-csv-btn" onClick={handleExport} type="button">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 4v12" />
